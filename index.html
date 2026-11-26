@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Résidences d’Afrique – prototype</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fff;--surface:#fff;--ink:#16213E;--muted:#5B6479;--line:#E3E6EE;--sun:#F2B230;--sun-ink:#3A2A00;--ok:#1F7A4D;--wa:#1FA855;--hdr:#fff;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0F1426;--surface:#192040;--ink:#EEF0F8;--muted:#A3ABC4;--line:#2B3560;--ok:#5CD39A;--hdr:#0F1426}}
+:root[data-theme="dark"]{--bg:#0F1426;--surface:#192040;--ink:#EEF0F8;--muted:#A3ABC4;--line:#2B3560;--ok:#5CD39A;--hdr:#0F1426}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.5 "Public Sans",system-ui,sans-serif}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--hdr);z-index:10}
+h1,h2,h3,.logo{font-family:"Bricolage Grotesque",system-ui,sans-serif;margin:0;line-height:1.15}
+header{position:sticky;top:env(safe-area-inset-top,0px);background:var(--hdr);border-bottom:1px solid var(--line);z-index:9;padding:12px 16px 0}
+.wrap{max-width:1100px;margin:0 auto}
+.top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.logo{font-weight:800;font-size:20px}
+.btn{border:0;border-radius:10px;padding:11px 16px;font:600 15px "Public Sans",sans-serif;cursor:pointer;background:var(--sun);color:var(--sun-ink);text-decoration:none;display:inline-block;text-align:center}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.btn.wa{background:var(--wa);color:#fff}
+:is(.btn,select,input,.chip,.cat,.card,.heart):focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+.pill{order:3;flex:1 1 100%;display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:18px;box-shadow:0 2px 8px rgba(0,0,0,.08);overflow:hidden;background:var(--surface)}
+.pill div{padding:8px 14px;border-bottom:1px solid var(--line)}
+.pill div:nth-child(odd){border-right:1px solid var(--line)}
+.pill div:nth-child(n+3){border-bottom:0}
+.pill label{font-size:12px;font-weight:600;display:block}
+.pill select,.pill input{border:0;background:transparent;color:var(--ink);font:inherit;padding:0;width:100%}
+@media(min-width:760px){.pill{order:0;flex:0 1 640px;grid-template-columns:1.1fr 1.4fr 1fr;border-radius:99px}.pill div{border:0!important;border-left:1px solid var(--line)!important;padding:8px 20px}.pill div:first-child{border-left:0!important}.pill div:last-child{display:none}}
+.cats{display:flex;gap:6px;overflow-x:auto;padding:12px 0 0;scrollbar-width:none}
+.cat{flex:none;background:none;border:0;border-bottom:3px solid transparent;color:var(--muted);font:500 14px "Public Sans",sans-serif;padding:6px 12px 10px;cursor:pointer;display:grid;justify-items:center;gap:2px}
+.cat i{font-style:normal;font-size:22px}
+.cat[aria-pressed=true]{color:var(--ink);border-bottom-color:var(--ink)}
+main{padding:22px 16px 60px}
+.grid{display:grid;gap:26px 18px;grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+.card{cursor:pointer;display:block}
+.pic{aspect-ratio:1/0.95;border-radius:16px;position:relative;display:grid;place-items:center;overflow:hidden}
+.pic svg{width:46%;opacity:.9}
+.badge{position:absolute;top:10px;left:10px;background:var(--surface);color:var(--ok);font-size:12.5px;font-weight:600;padding:3px 10px;border-radius:99px}
+.heart{position:absolute;top:8px;right:8px;background:rgba(0,0,0,.28);border:0;border-radius:50%;width:36px;height:36px;color:#fff;font-size:18px;cursor:pointer}
+.heart[aria-pressed=true]{color:#FF5C6C}
+.row1{display:flex;justify-content:space-between;gap:8px;margin-top:9px;font-weight:600}
+.meta{color:var(--muted);font-size:14.5px}
+.price{margin-top:3px}.price b{font-weight:600}
+.empty{padding:40px 10px;text-align:center;color:var(--muted);grid-column:1/-1}
+dialog{border:0;border-radius:18px;padding:0;max-width:480px;width:calc(100% - 24px);background:var(--surface);color:var(--ink);max-height:92vh}
+dialog::backdrop{background:rgba(8,12,28,.6)}
+.dlg{display:grid;gap:12px;padding:0 18px 18px}
+.dlg .pic{margin:0 -18px;border-radius:0;aspect-ratio:16/8}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+label{font-size:13px;color:var(--muted)}
+select,input[type=text],input[type=password],input[type=number],input[type=date]{width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1.5px solid var(--line);background:var(--bg);color:var(--ink);border-radius:99px;padding:8px 13px;font:500 14px "Public Sans",sans-serif;cursor:pointer}
+.chip[aria-pressed=true]{border-color:var(--sun);background:var(--sun);color:var(--sun-ink)}
+.total{font-weight:600;font-size:18px}.note{font-size:13px;color:var(--muted)}
+.msg{background:var(--line);border-radius:10px;padding:12px;color:var(--ok);font-weight:600}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+<div class="top"><div class="logo">Résidences d’Afrique</div>
+<div class="pill">
+<div><label for="fCountry">Pays</label><select id="fCountry"></select></div>
+<div><label for="fCity">Ville ou quartier</label><input type="text" id="fCity" placeholder="Cocody, Almadies…"></div>
+<div><label for="fMax">Prix max / nuit</label><input type="number" id="fMax" min="0" placeholder="Illimité"></div>
+<div><label for="fVer">Vérifiées</label><select id="fVer"><option value="">Toutes</option><option value="1">Vérifiées</option></select></div>
+</div>
+<span style="display:flex;gap:8px"><button class="btn ghost" id="myBtn" style="display:none">Mes réservations</button><button class="btn ghost" id="authBtn">Connexion</button><button class="btn" id="pubBtn">Publier ma résidence</button></span></div>
+<div class="cats" id="cats"></div>
+</div></header>
+
+<main><div class="wrap"><div class="grid" id="list" aria-live="polite"></div></div></main>
+
+<dialog id="bookDlg"><div class="dlg" id="bookBody"></div></dialog>
+<dialog id="authDlg"><div class="dlg" style="padding-top:18px"><h2 id="aTitle">Connexion</h2><div><label for="aMail">E-mail</label><input type="text" id="aMail" autocomplete="email"></div><div><label for="aPw">Mot de passe (6 caractères minimum)</label><input type="password" id="aPw" autocomplete="current-password"></div><button class="btn" id="aGo">Se connecter</button><button class="btn ghost" id="aSwitch">Créer un compte</button><button class="btn ghost" id="aCl">Fermer</button><div id="aMsg" class="note" role="alert"></div></div></dialog>
+<dialog id="myDlg"><div class="dlg" style="padding-top:18px"><h2>Mes réservations</h2><div id="myList"></div><button class="btn ghost" id="myCl">Fermer</button></div></dialog>
+<dialog id="pubDlg"><div class="dlg" style="padding-top:18px">
+<h2>Publier ma résidence</h2>
+<div><label for="pTitle">Nom de l’annonce</label><input type="text" id="pTitle"></div>
+<div class="row"><div><label for="pCountry">Pays</label><select id="pCountry"></select></div><div><label for="pCity">Ville / quartier</label><input type="text" id="pCity"></div></div>
+<div class="row"><div><label for="pPrice">Prix par nuit</label><input type="number" id="pPrice" min="0"></div><div><label for="pCat">Type</label><select id="pCat"></select></div></div>
+<div><label for="pWa">Numéro WhatsApp (avec indicatif)</label><input type="text" id="pWa" placeholder="2250700000000"></div>
+<div><label for="pPh">Photos (jusqu’à 5, 5 Mo max chacune)</label><input type="file" id="pPh" accept="image/*" multiple></div>
+<p class="note">Le badge « Vérifié » est donné après une visite ou une vidéo de votre logement.</p>
+<div class="row"><button class="btn ghost" id="pCancel">Annuler</button><button class="btn" id="pSave">Publier</button></div>
+<div id="pErr" class="note" role="alert"></div>
+</div></dialog>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="config.js"></script>
+<script>
+var CB="Carte bancaire",OM="Orange Money",MT="MTN MoMo",MV="Moov Money",AM="Airtel Money",MP="M-Pesa";
+var C={"Afrique du Sud":{cur:"ZAR",pay:[CB,"Virement"]},"Angola":{cur:"AOA",pay:["Multicaixa Express",CB]},"Bénin":{cur:"FCFA",pay:[MT,MV]},"Botswana":{cur:"BWP",pay:[OM,CB]},"Burkina Faso":{cur:"FCFA",pay:[OM,MV]},"Burundi":{cur:"BIF",pay:["Lumicash","EcoCash"]},"Cameroun":{cur:"FCFA",pay:[MT,OM]},"Cap-Vert":{cur:"CVE",pay:[CB]},"Centrafrique":{cur:"FCFA",pay:[OM,MV]},"Congo":{cur:"FCFA",pay:[AM,MT]},"Côte d’Ivoire":{cur:"FCFA",pay:[OM,MT,"Wave"]},"Érythrée":{cur:"ERN",pay:[CB]},"Eswatini":{cur:"SZL",pay:[MT,CB]},"Éthiopie":{cur:"ETB",pay:["Telebirr","CBE Birr"]},"Gabon":{cur:"FCFA",pay:[AM,MV]},"Gambie":{cur:"GMD",pay:["Wave",CB]},"Ghana":{cur:"GHS",pay:[MT,"Telecel Cash"]},"Guinée":{cur:"GNF",pay:[OM,MT]},"Guinée équatoriale":{cur:"FCFA",pay:[CB]},"Guinée-Bissau":{cur:"FCFA",pay:[OM,MT]},"Kenya":{cur:"KES",pay:[MP,AM]},"Lesotho":{cur:"LSL",pay:[MP,"EcoCash"]},"Liberia":{cur:"LRD",pay:[OM,MT]},"Madagascar":{cur:"MGA",pay:["MVola",OM]},"Malawi":{cur:"MWK",pay:[AM,"TNM Mpamba"]},"Mali":{cur:"FCFA",pay:[OM,MV]},"Maurice":{cur:"MUR",pay:[CB,"MCB Juice"]},"Mozambique":{cur:"MZN",pay:[MP,"e-Mola"]},"Namibie":{cur:"NAD",pay:[CB,"Virement"]},"Niger":{cur:"FCFA",pay:[AM,OM]},"Nigeria":{cur:"NGN",pay:["Opay",CB]},"Ouganda":{cur:"UGX",pay:[MT,AM]},"RD Congo":{cur:"CDF",pay:[MP,OM,AM]},"Rwanda":{cur:"RWF",pay:[MT,AM]},"Sao Tomé-et-Principe":{cur:"STN",pay:[CB]},"Sénégal":{cur:"FCFA",pay:["Wave",OM]},"Seychelles":{cur:"SCR",pay:[CB]},"Sierra Leone":{cur:"SLE",pay:[OM,"Afrimoney"]},"Soudan du Sud":{cur:"SSP",pay:[MT,CB]},"Tanzanie":{cur:"TZS",pay:[MP,"Tigo Pesa"]},"Tchad":{cur:"FCFA",pay:[AM,MV]},"Togo":{cur:"FCFA",pay:[MV,"T-Money"]},"Zambie":{cur:"ZMW",pay:[MT,AM]},"Zimbabwe":{cur:"USD",pay:["EcoCash",CB]}};
+var K=[["","🌍","Tous"],["villa","🏡","Villas"],["studio","🛏️","Studios"],["mer","🏖️","Bord de mer"],["long","📅","Longue durée"]];
+var HOUSE='<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"><path d="M3 11 12 3l9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>';
+var L=[
+{t:"Appartement moderne",c:"Côte d’Ivoire",v:"Cocody, Abidjan",p:25000,k:"studio",ok:1,r:4.9,h:224},
+{t:"Studio près du Plateau",c:"Côte d’Ivoire",v:"Plateau, Abidjan",p:18000,k:"studio",ok:1,r:4.7,h:200},
+{t:"Villa avec piscine",c:"Côte d’Ivoire",v:"Assinie-Mafia",p:60000,k:"mer",ok:0,r:4.8,h:18},
+{t:"Résidence vue mer",c:"Sénégal",v:"Almadies, Dakar",p:30000,k:"mer",ok:1,r:4.9,h:340},
+{t:"Appartement meublé",c:"Cameroun",v:"Bonanjo, Douala",p:22000,k:"long",ok:0,r:4.5,h:262},
+{t:"Maison familiale",c:"Bénin",v:"Fidjrossè, Cotonou",p:20000,k:"villa",ok:1,r:4.6,h:150},
+{t:"Appartement East Legon",c:"Ghana",v:"East Legon, Accra",p:450,k:"long",ok:1,r:4.8,h:30},
+{t:"Studio Westlands",c:"Kenya",v:"Westlands, Nairobi",p:6500,k:"studio",ok:0,r:4.4,h:285},
+{t:"Duplex de standing",c:"Nigeria",v:"Lekki, Lagos",p:55000,k:"villa",ok:1,r:4.9,h:175}];
+var cat="",fav={};
+function esc(s){return String(s).replace(/[&<>"']/g,function(m){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]})}
+function $(i){return document.getElementById(i)}
+function money(n,c){return Number(n).toLocaleString("fr-FR")+" "+C[c].cur}
+function bg(h){return"linear-gradient(135deg,hsl("+h+" 45% 32%),hsl("+((h+40)%360)+" 55% 50%))"}
+$("fCountry").innerHTML='<option value="">Toute l’Afrique</option>'+Object.keys(C).sort(function(a,b){return a.localeCompare(b,"fr")}).map(function(k){return"<option>"+esc(k)+"</option>"}).join("");
+$("pCountry").innerHTML=Object.keys(C).sort(function(a,b){return a.localeCompare(b,"fr")}).map(function(k){return"<option>"+esc(k)+"</option>"}).join("");
+$("pCat").innerHTML=K.slice(1).map(function(k){return'<option value="'+k[0]+'">'+k[2]+"</option>"}).join("");
+$("cats").innerHTML=K.map(function(k,i){return'<button class="cat" data-k="'+k[0]+'" aria-pressed="'+(i===0)+'"><i aria-hidden="true">'+k[1]+"</i>"+k[2]+"</button>"}).join("");
+$("cats").addEventListener("click",function(e){var b=e.target.closest(".cat");if(!b)return;cat=b.dataset.k;[].forEach.call($("cats").children,function(c){c.setAttribute("aria-pressed",c===b)});render()});
+function render(){
+var co=$("fCountry").value,ci=$("fCity").value.trim().toLowerCase(),mx=Number($("fMax").value)||0,ve=$("fVer").value;
+var r=[];L.forEach(function(x,i){if((!co||x.c===co)&&(!ci||x.v.toLowerCase().indexOf(ci)>-1)&&(!mx||x.p<=mx)&&(!ve||x.ok)&&(!cat||x.k===cat))r.push(i)});
+$("list").innerHTML=r.length?r.map(function(i){var x=L[i];
+return'<article class="card" tabindex="0" data-i="'+i+'"><div class="pic" style="background:'+bgx(x)+'">'+(x.img?"":HOUSE)+(x.ok?'<div class="badge">✓ Vérifié</div>':"")+'<button class="heart" data-f="'+i+'" aria-label="Ajouter aux favoris" aria-pressed="'+(!!fav[i])+'">♥</button></div><div class="row1"><span>'+esc(x.v)+"</span><span>★ "+x.r+'</span></div><div class="meta">'+esc(x.t)+" · "+esc(x.c)+'</div><div class="price"><b>'+money(x.p,x.c)+"</b> / nuit</div></article>"}).join(""):'<div class="empty">Aucune résidence ne correspond. Changez de filtre ou publiez la première.</div>'}
+["fCountry","fCity","fMax","fVer"].forEach(function(i){$(i).addEventListener("input",render)});
+$("list").addEventListener("click",function(e){var h=e.target.closest(".heart");if(h){var f=h.dataset.f;fav[f]=!fav[f];h.setAttribute("aria-pressed",!!fav[f]);return}var c=e.target.closest(".card");if(c)book(Number(c.dataset.i))});
+$("list").addEventListener("keydown",function(e){if(e.key==="Enter"&&e.target.classList.contains("card"))book(Number(e.target.dataset.i))});
+function book(i){
+var x=L[i],pay=C[x.c].pay,sel=pay[0],n=0;
+var wa="https://wa.me/"+(x.w||"2250700000000")+"?text="+encodeURIComponent("Bonjour, je suis intéressé par « "+x.t+" » ("+x.v+").");
+$("bookBody").innerHTML='<div class="pic" style="background:'+bgx(x)+'">'+(x.img?"":HOUSE)+'</div><h2>'+esc(x.t)+'</h2><div class="meta">'+esc(x.v)+", "+esc(x.c)+" · ★ "+x.r+(x.ok?" · ✓ Vérifié":"")+'</div><div class="row"><div><label for="d1">Arrivée</label><input type="date" id="d1"></div><div><label for="d2">Départ</label><input type="date" id="d2"></div></div><div class="total" id="tot">Choisissez vos dates</div><div><div class="note" style="margin-bottom:6px">Payer avec</div><div class="chips" id="chips">'+pay.map(function(p,k){return'<button class="chip" aria-pressed="'+(k===0)+'">'+esc(p)+"</button>"}).join("")+'</div></div><button class="btn" id="go">Réserver</button><div id="res"></div><a class="btn wa" href="'+wa+'" target="_blank" rel="noopener">Écrire au propriétaire sur WhatsApp</a><button class="btn ghost" id="cl">Fermer</button><p class="note">Démonstration : aucun paiement réel n’est effectué.</p>';
+function upd(){var a=new Date($("d1").value),b=new Date($("d2").value);n=Math.round((b-a)/864e5);$("tot").textContent=n>0?n+" nuit"+(n>1?"s":"")+" · "+money(n*x.p,x.c):"Choisissez vos dates"}
+$("d1").addEventListener("input",upd);$("d2").addEventListener("input",upd);
+$("chips").addEventListener("click",function(e){var c=e.target.closest(".chip");if(!c)return;sel=c.textContent;[].forEach.call($("chips").children,function(k){k.setAttribute("aria-pressed",k===c)})});
+$("go").addEventListener("click",function(){$("res").innerHTML=n>0?'<div class="msg">Réservé ! Paiement de '+esc(money(n*x.p,x.c))+" par "+esc(sel)+" (démo).</div>":'<div class="note" role="alert">Choisissez une date d’arrivée et de départ valides.</div>'});
+$("cl").addEventListener("click",function(){$("bookDlg").close()});
+$("bookDlg").showModal()}
+$("pubBtn").addEventListener("click",function(){if(DB&&!U){openAuth();return}$("pErr").textContent="";$("pubDlg").showModal()});
+$("pCancel").addEventListener("click",function(){$("pubDlg").close()});
+$("pSave").addEventListener("click",function(){if(DB){savePub();return}
+var t=$("pTitle").value.trim(),v=$("pCity").value.trim(),p=Number($("pPrice").value),w=$("pWa").value.replace(/\D/g,"");
+if(!t||!v||!(p>0)){$("pErr").textContent="Renseignez le nom, la ville et le prix par nuit.";return}
+L.unshift({t:t,c:$("pCountry").value,v:v,p:p,k:$("pCat").value,ok:0,r:"Nouveau",w:w||"",h:Math.floor(Math.random()*360)});
+fav={};["pTitle","pCity","pPrice","pWa"].forEach(function(i){$(i).value=""});
+$("pubDlg").close();$("fCountry").value="";$("fCity").value="";$("fMax").value="";$("fVer").value="";render()});
+var DB=null,U=null,CF=window.CFG||{};
+if(window.supabase&&CF.url&&CF.url.indexOf("http")===0){DB=supabase.createClient(CF.url,CF.key);L=[]}
+function bgx(x){return x.img?"url('"+x.img+"') center/cover":bg(x.h)}
+function rows(d){return d.map(function(r){return{id:r.id,uid:r.user_id,t:r.title,c:r.country,v:r.city,p:r.price,k:r.category,ok:r.verified?1:0,r:"Nouveau",w:r.whatsapp||"",img:(r.photos||[])[0]||"",h:(r.id.charCodeAt(0)*37)%360}})}
+async function load(){if(!DB)return;var q=await DB.from("listings").select("*").order("created_at",{ascending:false});if(q.error){$("list").innerHTML='<div class="empty">Chargement impossible : '+esc(q.error.message)+"</div>";return}L=rows(q.data);render()}
+function who(){$("authBtn").textContent=U?"Déconnexion":"Connexion";$("myBtn").style.display=U?"":"none"}
+if(DB){DB.auth.getSession().then(function(s){U=s.data.session?s.data.session.user:null;who();if(U&&/paiement=/.test(location.search)){history.replaceState(null,"",location.pathname);$("myBtn").click()}});DB.auth.onAuthStateChange(function(e,s){U=s?s.user:null;who()});load()}else $("authBtn").style.display="none";
+var reg=false;
+function sw(){$("aTitle").textContent=reg?"Créer un compte":"Connexion";$("aGo").textContent=reg?"Créer mon compte":"Se connecter";$("aSwitch").textContent=reg?"J’ai déjà un compte":"Créer un compte"}
+function openAuth(){reg=false;sw();$("aMsg").textContent="";$("authDlg").showModal()}
+$("authBtn").addEventListener("click",function(){if(U){DB.auth.signOut()}else openAuth()});
+$("aSwitch").addEventListener("click",function(){reg=!reg;sw()});
+$("aCl").addEventListener("click",function(){$("authDlg").close()});
+$("aGo").addEventListener("click",async function(){var e=$("aMail").value.trim(),p=$("aPw").value;
+var r=reg?await DB.auth.signUp({email:e,password:p}):await DB.auth.signInWithPassword({email:e,password:p});
+if(r.error){$("aMsg").textContent=r.error.message;return}
+if(reg&&!r.data.session){$("aMsg").textContent="Compte créé. Confirmez votre e-mail, puis connectez-vous.";return}
+$("authDlg").close()});
+async function savePub(){
+var t=$("pTitle").value.trim(),v=$("pCity").value.trim(),p=Number($("pPrice").value),w=$("pWa").value.replace(/\D/g,""),fs=[].slice.call($("pPh").files,0,5);
+if(!t||!v||!(p>0)){$("pErr").textContent="Renseignez le nom, la ville et le prix par nuit.";return}
+$("pSave").disabled=true;$("pErr").textContent="Publication en cours…";
+var urls=[];
+for(var i=0;i<fs.length;i++){var path=U.id+"/"+Date.now()+"-"+i+".jpg";
+var up=await DB.storage.from("photos").upload(path,await shrink(fs[i]),{contentType:"image/jpeg"});
+if(up.error){$("pErr").textContent="Photo refusée : "+up.error.message;$("pSave").disabled=false;return}
+urls.push(DB.storage.from("photos").getPublicUrl(path).data.publicUrl)}
+var ins=await DB.from("listings").insert({user_id:U.id,title:t,country:$("pCountry").value,city:v,price:p,category:$("pCat").value,whatsapp:w,photos:urls});
+$("pSave").disabled=false;
+if(ins.error){$("pErr").textContent="Erreur : "+ins.error.message;return}
+["pTitle","pCity","pPrice","pWa","pPh"].forEach(function(i){$(i).value=""});
+$("pubDlg").close();await load()}
+var _book=book;
+book=function(i){_book(i);var x=L[i];if(DB)payBtn(x);if(DB&&U&&x.uid===U.id){var b=document.createElement("button");b.className="btn ghost";b.textContent="Supprimer mon annonce";b.onclick=async function(){await DB.from("listings").delete().eq("id",x.id);$("bookDlg").close();load()};$("cl").before(b)}};
+function shrink(f){return new Promise(function(ok){var im=new Image();im.onload=function(){var k=Math.min(1,1600/Math.max(im.width,im.height)),c=document.createElement("canvas");c.width=im.width*k;c.height=im.height*k;c.getContext("2d").drawImage(im,0,0,c.width,c.height);c.toBlob(function(b){ok(b||f)},"image/jpeg",.8)};im.onerror=function(){ok(f)};im.src=URL.createObjectURL(f)})}
+function payBtn(x){var g=$("go"),ng=g.cloneNode(true);g.replaceWith(ng);
+ng.onclick=async function(){var d1=$("d1").value,d2=$("d2").value,n=Math.round((new Date(d2)-new Date(d1))/864e5),res=$("res");
+if(!(n>0)){res.innerHTML='<div class="note" role="alert">Choisissez une date d’arrivée et de départ valides.</div>';return}
+if(!U){$("bookDlg").close();openAuth();return}
+if(x.uid===U.id){res.innerHTML='<div class="note" role="alert">Vous ne pouvez pas réserver votre propre résidence.</div>';return}
+var m=document.querySelector("#chips .chip[aria-pressed=true]").textContent;
+ng.disabled=true;res.textContent="Réservation en cours…";
+var b=await DB.from("bookings").insert({listing_id:x.id,guest_id:U.id,check_in:d1,check_out:d2,method:m}).select().single();
+if(b.error){ng.disabled=false;res.innerHTML='<div class="note" role="alert">'+(b.error.code==="23P01"?"Ces dates ne sont plus disponibles.":esc(b.error.message))+"</div>";return}
+var p=await DB.functions.invoke("create-payment",{body:{booking_id:b.data.id,return_url:location.origin+location.pathname}});
+ng.disabled=false;
+if(p.error||!p.data||!p.data.url){res.innerHTML='<div class="note" role="alert">Paiement indisponible pour ce pays pour le moment. Écrivez au propriétaire sur WhatsApp. Votre demande reste dans « Mes réservations ».</div>';return}
+location.href=p.data.url}}
+$("myCl").addEventListener("click",function(){$("myDlg").close()});
+$("myBtn").addEventListener("click",async function(){$("myList").textContent="Chargement…";$("myDlg").showModal();
+var q=await DB.from("bookings").select("*,listings(title,city,user_id)").order("created_at",{ascending:false});
+if(q.error){$("myList").textContent=q.error.message;return}
+var S={pending:"En attente de paiement",paid:"Payée",cancelled:"Annulée"};
+$("myList").innerHTML=q.data.length?q.data.map(function(b){var l=b.listings||{},own=l.user_id===U.id;
+return'<div class="msg" style="margin-bottom:8px;color:var(--ink)"><b>'+esc(l.title||"")+"</b> · "+esc(l.city||"")+"<br>"+esc(b.check_in)+" → "+esc(b.check_out)+" · "+Number(b.amount).toLocaleString("fr-FR")+" "+esc(b.currency||"")+"<br>"+(own?"Reçue : ":"Ma réservation : ")+esc(S[b.status]||b.status)+"</div>"}).join(""):'<div class="note">Aucune réservation pour le moment.</div>'});
+render();
+</script>
+</body>
+</html>
